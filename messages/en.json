@@ -25,11 +25,30 @@
     "title": "Start",
     "paperIntro": "Join an existing room or host a new one.",
     "joinDescription": "Enter the 8-character room code",
-    "createDescription": "You will enter the lobby as host"
+    "createDescription": "You will enter the lobby as host",
+    "errorRoomNotFound": "Room not found.",
+    "errorRoomFull": "Room is full.",
+    "errorGeneric": "Something went wrong. Try again."
   },
   "room": {
     "title": "Room",
-    "lobbyHint": "Waiting for host to start (work in progress)",
-    "codeLabel": "Room code"
+    "lobbyHint": "Waiting for the host. When ready, the host starts the game to deal words.",
+    "codeLabel": "Room code",
+    "notFound": "This room does not exist or is no longer available.",
+    "roomFull": "Room is full (max 8 players).",
+    "joinFailed": "Could not join the room. Try again later.",
+    "host": "Host",
+    "you": "You",
+    "playersCount": "Players {count} / 8",
+    "gameSettings": "Game settings",
+    "speakSeconds": "Speak duration (sec)",
+    "voteSeconds": "Vote duration (sec)",
+    "sessionRounds": "Rounds in session",
+    "saveSettings": "Save settings",
+    "startGame": "Start game",
+    "yourWord": "Your word this round",
+    "roleCivilian": "Role: Civilian",
+    "roleUndercover": "Role: Undercover",
+    "dealHint": "Do not reveal your word. Speaking and voting will ship in a later iteration."
   }
 }

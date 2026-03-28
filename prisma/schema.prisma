@@ -1,5 +1,4 @@
-// Who Is Spy (whoisspy) — MVP 首版模型，随对局实现扩展
-// 本地: 复制 .env.example 为 .env 并设置 DATABASE_URL 后执行 pnpm exec prisma migrate dev
+// Who Is Spy (whoisspy) — 私密房 + 成员 + 开局发词（gameState JSON）
 
 generator client {
   provider = "prisma-client-js"
@@ -10,9 +9,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum RoomPhase {
+  LOBBY
+  PLAYING
+}
+
 model Room {
-  id        String   @id @default(cuid())
-  code      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 String    @id @default(cuid())
+  code               String    @unique
+  phase              RoomPhase @default(LOBBY)
+  speakDurationSec   Int       @default(30)
+  voteDurationSec    Int       @default(30)
+  sessionTotalRounds Int       @default(5)
+  /// 房主 clientKey（创建房间时首个成员的匿名标识）
+  hostClientKey      String
+  /// PLAYING 时存发词结果等（版本化结构见 src/lib/room/game-state.ts）
+  gameState          Json?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  members            RoomMember[]
+}
+
+model RoomMember {
+  id          String   @id @default(cuid())
+  roomId      String
+  room        Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  seat        Int
+  clientKey   String
+  displayName String
+  avatarSeed  String
+  isHost      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@unique([roomId, clientKey])
+  @@unique([roomId, seat])
+  @@index([roomId])
 }

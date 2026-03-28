@@ -25,11 +25,30 @@
     "title": "开始",
     "paperIntro": "加入已有房间，或开一局新房。",
     "joinDescription": "输入 8 位房间号",
-    "createDescription": "你将作为房主进入工作间"
+    "createDescription": "你将作为房主进入工作间",
+    "errorRoomNotFound": "房间不存在。",
+    "errorRoomFull": "房间已满。",
+    "errorGeneric": "请求失败，请重试。"
   },
   "room": {
     "title": "房间",
-    "lobbyHint": "等待房主开始游戏（功能开发中）",
-    "codeLabel": "房间码"
+    "lobbyHint": "等待房主开始游戏。人满后由房主点击「开始游戏」发词。",
+    "codeLabel": "房间码",
+    "notFound": "房间不存在或已失效。",
+    "roomFull": "房间已满（最多 8 人）。",
+    "joinFailed": "无法加入房间，请稍后再试。",
+    "host": "房主",
+    "you": "你",
+    "playersCount": "玩家 {count} / 8",
+    "gameSettings": "游戏设置",
+    "speakSeconds": "发言时长（秒）",
+    "voteSeconds": "投票时长（秒）",
+    "sessionRounds": "会话总局数",
+    "saveSettings": "保存设置",
+    "startGame": "开始游戏",
+    "yourWord": "本局你的词",
+    "roleCivilian": "身份：平民",
+    "roleUndercover": "身份：卧底",
+    "dealHint": "请勿向他人透露你的词。发言与投票阶段即将在后续版本接入。"
   }
 }

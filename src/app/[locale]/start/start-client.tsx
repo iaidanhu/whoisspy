@@ -3,12 +3,14 @@
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
+import type { WhoisspyProfile } from "@/lib/profile/types";
 import {
   WHOISSPY_PROFILE_KEY,
   isProfileComplete,
   parseProfile,
 } from "@/lib/profile/storage";
-import { generateRoomCode, isValidRoomCodeFormat, normalizeRoomCodeInput } from "@/lib/room/code";
+import { getOrCreateClientKey } from "@/lib/client-key";
+import { isValidRoomCodeFormat, normalizeRoomCodeInput } from "@/lib/room/code";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -22,6 +24,8 @@ export function StartClient() {
   const router = useRouter();
   const [code, setCode] = useState("");
   const [hydrated, setHydrated] = useState(false);
+  const [busy, setBusy] = useState<"join" | "create" | null>(null);
+  const [remoteError, setRemoteError] = useState<string | null>(null);
 
   useEffect(() => {
     const raw = localStorage.getItem(WHOISSPY_PROFILE_KEY);
@@ -32,15 +36,72 @@ export function StartClient() {
     setHydrated(true);
   }, [router]);
 
-  const join = useCallback(() => {
+  const join = useCallback(async () => {
     const normalized = normalizeRoomCodeInput(code);
     if (!isValidRoomCodeFormat(normalized)) return;
-    router.push(`/r/${normalized}`);
+    const raw = localStorage.getItem(WHOISSPY_PROFILE_KEY);
+    const profile = parseProfile(raw);
+    if (!isProfileComplete(profile)) return;
+    const prof = profile as WhoisspyProfile;
+    setRemoteError(null);
+    setBusy("join");
+    try {
+      const ck = getOrCreateClientKey();
+      const res = await fetch(`/api/rooms/${encodeURIComponent(normalized)}/join`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientKey: ck,
+          displayName: prof.displayName,
+          avatarSeed: prof.avatarSeed,
+        }),
+      });
+      if (res.status === 404) {
+        setRemoteError("not_found");
+        return;
+      }
+      if (res.status === 409) {
+        const j = (await res.json()) as { error?: string };
+        setRemoteError(j.error === "room_full" ? "full" : "other");
+        return;
+      }
+      if (!res.ok) {
+        setRemoteError("other");
+        return;
+      }
+      router.push(`/r/${normalized}`);
+    } finally {
+      setBusy(null);
+    }
   }, [code, router]);
 
-  const create = useCallback(() => {
-    const newCode = generateRoomCode();
-    router.push(`/r/${newCode}`);
+  const create = useCallback(async () => {
+    const raw = localStorage.getItem(WHOISSPY_PROFILE_KEY);
+    const profile = parseProfile(raw);
+    if (!isProfileComplete(profile)) return;
+    const prof = profile as WhoisspyProfile;
+    setRemoteError(null);
+    setBusy("create");
+    try {
+      const ck = getOrCreateClientKey();
+      const res = await fetch("/api/rooms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientKey: ck,
+          displayName: prof.displayName,
+          avatarSeed: prof.avatarSeed,
+        }),
+      });
+      if (!res.ok) {
+        setRemoteError("other");
+        return;
+      }
+      const data = (await res.json()) as { code: string };
+      router.push(`/r/${data.code}`);
+    } finally {
+      setBusy(null);
+    }
   }, [router]);
 
   if (!hydrated) {
@@ -79,13 +140,22 @@ export function StartClient() {
               maxLength={8}
               className="home-sign-input border-2 border-[var(--home-ink-burgundy)]/40 bg-white/40 font-mono tracking-widest"
             />
+            {remoteError === "not_found" && (
+              <p className="text-sm text-red-700">{t("errorRoomNotFound")}</p>
+            )}
+            {remoteError === "full" && (
+              <p className="text-sm text-red-700">{t("errorRoomFull")}</p>
+            )}
+            {remoteError === "other" && (
+              <p className="text-sm text-red-700">{t("errorGeneric")}</p>
+            )}
             <Button
               type="button"
               className="w-full"
-              disabled={!codeOk}
-              onClick={join}
+              disabled={!codeOk || busy !== null}
+              onClick={() => void join()}
             >
-              {tc("join")}
+              {busy === "join" ? "…" : tc("join")}
             </Button>
           </div>
           <div className="relative text-center text-xs text-[var(--home-ink-muted)]">
@@ -93,8 +163,14 @@ export function StartClient() {
           </div>
           <div className="space-y-2 text-center">
             <p className="text-xs text-[var(--home-ink-muted)]">{t("createDescription")}</p>
-            <Button type="button" variant="secondary" className="w-full" onClick={create}>
-              {tc("createRoom")}
+            <Button
+              type="button"
+              variant="secondary"
+              className="w-full"
+              disabled={busy !== null}
+              onClick={() => void create()}
+            >
+              {busy === "create" ? "…" : tc("createRoom")}
             </Button>
           </div>
           <div className="text-center">
