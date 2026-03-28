@@ -2,24 +2,21 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { normalizeRoomCodeInput } from "@/lib/room/code";
 import { MAX_SESSION_ROUNDS, MIN_SESSION_ROUNDS } from "@/lib/game/constants";
+import { roomPublicJson } from "@/lib/room/room-view";
 import { toRoomPublic } from "@/lib/room/serialize";
 
 type Ctx = { params: Promise<{ code: string }> };
 
 export async function GET(req: Request, ctx: Ctx) {
   const { code: raw } = await ctx.params;
-  const code = normalizeRoomCodeInput(raw);
   const url = new URL(req.url);
   const viewerClientKey = url.searchParams.get("clientKey")?.trim() || null;
 
-  const room = await prisma.room.findUnique({
-    where: { code },
-    include: { members: { orderBy: { seat: "asc" } } },
-  });
-  if (!room) {
+  const data = await roomPublicJson(raw, viewerClientKey);
+  if (!data) {
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   }
-  return NextResponse.json(toRoomPublic(room, viewerClientKey));
+  return NextResponse.json(data);
 }
 
 type PatchBody = {

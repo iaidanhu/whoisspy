@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { normalizeRoomCodeInput } from "@/lib/room/code";
-import { MIN_PLAYERS } from "@/lib/game/constants";
-import { pickRandomWordPair } from "@/lib/word-pairs";
 import { roomBusEmitRoomRefresh } from "@/lib/realtime/room-bus";
-import { buildPlayingStateV2 } from "@/lib/room/game-state-v2";
+import { normalizeRoomCodeInput } from "@/lib/room/code";
+import { parsePlayingStateV2 } from "@/lib/room/game-state-v2";
+import { fetchSyncedRoomByCode } from "@/lib/room/room-view";
 import { toRoomPublic } from "@/lib/room/serialize";
 
 type Body = { clientKey?: string };
@@ -27,34 +27,27 @@ export async function POST(req: Request, ctx: Ctx) {
     return NextResponse.json({ error: "invalid_client_key" }, { status: 400 });
   }
 
-  const room = await prisma.room.findUnique({
-    where: { code },
-    include: { members: { orderBy: { seat: "asc" } } },
-  });
+  const room = await fetchSyncedRoomByCode(code);
   if (!room) {
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   }
   if (room.hostClientKey !== clientKey) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
-  if (room.phase !== "LOBBY") {
-    return NextResponse.json({ error: "already_started" }, { status: 409 });
-  }
-  if (room.members.length < MIN_PLAYERS) {
-    return NextResponse.json({ error: "not_enough_players" }, { status: 409 });
+  if (room.phase !== "PLAYING") {
+    return NextResponse.json({ error: "not_playing" }, { status: 409 });
   }
 
-  const pair = pickRandomWordPair();
-  const gameState = buildPlayingStateV2(pair, room.members, {
-    sessionTotalRounds: room.sessionTotalRounds,
-    speakDurationSec: room.speakDurationSec,
-  }, Date.now());
+  const gs = parsePlayingStateV2(room.gameState);
+  if (!gs || gs.gamePhase !== "session_complete") {
+    return NextResponse.json({ error: "session_not_complete" }, { status: 409 });
+  }
 
   const updated = await prisma.room.update({
-    where: { code },
+    where: { id: room.id },
     data: {
-      phase: "PLAYING",
-      gameState: gameState as object,
+      phase: "LOBBY",
+      gameState: Prisma.DbNull,
     },
     include: { members: { orderBy: { seat: "asc" } } },
   });
