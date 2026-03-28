@@ -72,6 +72,19 @@
     "restartSession": "重新开始游戏",
     "lastRoundCivilian": "上一局：平民胜",
     "lastRoundUndercover": "上一局：卧底胜",
-    "cumulativeScores": "累计分"
+    "cumulativeScores": "累计分",
+    "soundMenuAria": "声音设置",
+    "soundSettings": "声音",
+    "muteAll": "全部静音",
+    "muteBgm": "关闭背景音乐",
+    "muteSfx": "关闭音效",
+    "topBarAlive": "存活 {alive}/{total}",
+    "roleCivilianShort": "平民",
+    "roleUndercoverShort": "卧底",
+    "youBadge": "你",
+    "yourTurnDescribe": "轮到你描述",
+    "describeAria": "本局描述输入",
+    "speakingCountdown": "发言倒计时",
+    "voteCountdown": "投票倒计时"
   }
 }

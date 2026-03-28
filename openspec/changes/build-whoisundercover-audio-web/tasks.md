@@ -49,12 +49,12 @@
 
 ## 7. 体验与验证
 
-- [ ] 7.0 按 `design-ui.md` 的 **路由与壳层**搭建界面：路径均为 **`/[locale]/...`**（含首页双态、**`/start`**、**`/r/[code]`** 单壳含等待/对局/终局）；**中英文案键完整**；对照 **§11 自检清单** 过一遍再合入。
-- [ ] 7.1 响应式 UI（Tailwind + shadcn）：发言阶段 **侧栏当前发言人强高亮**；**中部舞台** 他人时 **大图头像 + 描述文案带**，本人时 **Textarea + 麦克风(STT)**，**Enter 发送 / Shift+Enter 换行**（与 `design-ui` §8、`image.png` 一致）；投票 UI（**可配置**倒计时，默认 30s）；房主顶栏控件仅房主可见。
-- [ ] 7.2 **音频**：等待态 **BGM 循环**（源 `docs/audio/day.mp3` → `public/audio/` 或约定路径）、开局停止/淡出、再来一局回等待恢复；顶栏 **静音/BGM/音效** 与自动播放策略；**短音效**：投票、发言/投票超时预警、请 N 号发言；**开局 / 单局终 / 会话终** 留事件钩子，资源到位后接文件（无资源时静默跳过）。
-- [ ] 7.3 集成测试：不可投自己、全员弃票、**默认 30s** 超时、卧底出局、两人残局卧底胜、平票加赛、终局中部榜、房主再来一局。
-- [ ] 7.4 E2E：3 人 / 8 人、多局会话与最终 MVP。
-- [ ] 7.5 WebSocket 断线重连恢复状态。
+- [x] 7.0 按 `design-ui.md` 的 **路由与壳层**搭建界面：路径均为 **`/[locale]/...`**（含首页双态、**`/start`**、**`/r/[code]`** 单壳含等待/对局/终局）；**中英文案键完整**；对照 **§11 自检清单** 过一遍再合入。
+- [x] 7.1 响应式 UI（Tailwind + shadcn）：发言阶段 **侧栏当前发言人强高亮**；**中部舞台** 他人时 **大图头像 + 描述文案带**，本人时 **Textarea + 麦克风(STT)**，**Enter 发送 / Shift+Enter 换行**（与 `design-ui` §8、`image.png` 一致）；投票 UI（**可配置**倒计时，默认 30s）；房主顶栏控件仅房主可见。
+- [x] 7.2 **音频**：等待态 **BGM 循环**（源 `docs/audio/day.mp3` → `public/audio/` 或约定路径）、开局停止/淡出、再来一局回等待恢复；顶栏 **静音/BGM/音效** 与自动播放策略；**短音效**：投票、发言/投票超时预警、请 N 号发言；**开局 / 单局终 / 会话终** 留事件钩子，资源到位后接文件（无资源时静默跳过）。
+- [x] 7.3 集成测试：不可投自己、全员弃票、**默认 30s** 超时、卧底出局、两人残局卧底胜、平票加赛、终局中部榜、房主再来一局。
+- [ ] 7.4 E2E：3 人 / 8 人、多局会话与最终 MVP。（已加 Playwright 路由烟测 `e2e/smoke.spec.ts`，完整对局 E2E 待补。）
+- [x] 7.5 WebSocket 断线重连恢复状态。
 
 ## 8. 部署（Cloudflare + OpenNext）
 
@@ -64,8 +64,8 @@
 - [x] 8.2 核对 **`wrangler.jsonc`**（`main` / `assets` / `nodejs_compat` 等）、**`open-next.config.ts`**（按需 R2 增量缓存等）、**`.dev.vars`**；**`package.json`** 含 **`preview` / `deploy`**（及文档中的 **`build`/`upload`/`cf-typegen`** 等）脚本。
 - [x] 8.3 **`next.config`**：按需调用 **`initOpenNextCloudflareForDev`**；**禁止**保留适配器不支持的 **`export const runtime = "edge"`**。
 - [x] 8.4 静态资源：按文档添加或核对 **`public/_headers`**（如 `/_next/static/*` 长期缓存）；**`.open-next`** 在 **`.gitignore`** 中。
-- [ ] 8.5 **Neon + Prisma**：在 Workers 运行时验证数据库连通（**Hyperdrive** 或官方推荐方式），Secrets / `DATABASE_URL` 与 Wrangler 环境对齐。
-- [ ] 8.6 **实时**：WebSocket（或等价）在 Cloudflare 上的部署形态与 OpenNext 联调通过；文档中注明开发与生产 URL。
-- [ ] 8.7 CI/CD：生产分支合并后 **`npm run deploy`**（或 Cloudflare Git 集成）可重复发布。
+- [x] 8.5 **Neon + Prisma**：在 Workers 运行时验证数据库连通（**Hyperdrive** 或官方推荐方式），Secrets / `DATABASE_URL` 与 Wrangler 环境对齐。
+- [x] 8.6 **实时**：WebSocket（或等价）在 Cloudflare 上的部署形态与 OpenNext 联调通过；文档中注明开发与生产 URL。
+- [x] 8.7 CI/CD：生产分支合并后 **`npm run deploy`**（或 Cloudflare Git 集成）可重复发布。
 
 **备选路径**：若仓库**不是**由 `create cloudflare` 生成，可用 **`npx @opennextjs/cloudflare migrate`** 接入（以 CLI 当前行为为准）；**新仓库优先官方脚手架**，见 2.1。

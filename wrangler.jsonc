@@ -41,6 +41,15 @@
 	 */
 	// "placement": {  "mode": "smart" }
 	/**
+	 * Neon（生产）：创建 Hyperdrive 后取消注释并替换 id，见 docs/neon-hyperdrive.md
+	 */
+	// "hyperdrive": [
+	//   {
+	//     "binding": "HYPERDRIVE",
+	//     "id": "<your-hyperdrive-config-id>"
+	//   }
+	// ],
+	/**
 	 * Bindings
 	 * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including
 	 * databases, object storage, AI inference, real-time communication and more.

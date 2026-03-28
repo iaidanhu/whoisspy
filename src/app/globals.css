@@ -60,6 +60,7 @@
 	--accent: #c9a227;
 	--text-primary: rgba(255, 255, 255, 0.92);
 	--text-muted: rgba(255, 255, 255, 0.55);
+	--warning: #e8b86d;
 
 	--radius: 0.625rem;
 	--background: oklch(1 0 0);

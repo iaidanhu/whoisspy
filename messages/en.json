@@ -72,6 +72,19 @@
     "restartSession": "Play again",
     "lastRoundCivilian": "Last round: civilians won",
     "lastRoundUndercover": "Last round: undercover won",
-    "cumulativeScores": "Total"
+    "cumulativeScores": "Total",
+    "soundMenuAria": "Sound settings",
+    "soundSettings": "Sound",
+    "muteAll": "Mute all",
+    "muteBgm": "Mute background music",
+    "muteSfx": "Mute sound effects",
+    "topBarAlive": "Alive {alive}/{total}",
+    "roleCivilianShort": "Civilian",
+    "roleUndercoverShort": "Undercover",
+    "youBadge": "YOU",
+    "yourTurnDescribe": "Your turn to describe",
+    "describeAria": "Round description input",
+    "speakingCountdown": "Speaking time",
+    "voteCountdown": "Voting time"
   }
 }

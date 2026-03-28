@@ -1,5 +1,6 @@
 /**
  * 单进程内 SSE 推送（多实例 / 多 isolate 不互通，与 design MVP 一致，后续可换 DO / Redis）。
+ * 部署与 URL 说明见 `docs/realtime-cloudflare.md`。
  */
 type Listener = (payload: string) => void;
 

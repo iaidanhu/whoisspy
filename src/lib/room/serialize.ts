@@ -18,6 +18,8 @@ export type GamePublicV2 = {
   completedSessionRounds: number;
   sessionTotalRounds: number;
   pollIndex: number;
+  /** 平票加赛嵌套深度，0 为普通轮 */
+  tiebreakDepth: number;
   phaseDeadlineEpochMs: number;
   aliveSeats: number[];
   eliminationOrderThisRound: number[];
@@ -62,6 +64,7 @@ function toGamePublic(gs: PlayingStateV2): GamePublicV2 {
     completedSessionRounds: gs.completedSessionRounds,
     sessionTotalRounds: gs.sessionTotalRounds,
     pollIndex: gs.pollIndex,
+    tiebreakDepth: gs.tiebreakDepth,
     phaseDeadlineEpochMs: gs.phaseDeadlineEpochMs,
     aliveSeats: [...gs.aliveSeats],
     eliminationOrderThisRound: [...gs.eliminationOrderThisRound],
