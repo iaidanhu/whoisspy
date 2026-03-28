@@ -1,20 +1,20 @@
 ## 1. 基础模型与契约
 
-- [ ] 1.1 定义房间、玩家、**单局游戏**、发言轮次、投票、平票加赛、**会话多局**、排行榜等领域模型。
-- [ ] 1.2 定义服务端权威的实时事件契约：加入/离开、**开局**、发言文本、投票（**时长由房间配置，默认 30s**）、**局结束/胜负**、**会话结束**、**终局榜 / 房主再来一局**等。
-- [ ] 1.3 环境/配置：房间码策略、**投票/发言默认各 30s（房主可改）**、会话总局数 1–10（默认见 `design.md`）、`DATABASE_URL`（Neon）。
+- [x] 1.1 定义房间、玩家、**单局游戏**、发言轮次、投票、平票加赛、**会话多局**、排行榜等领域模型。
+- [x] 1.2 定义服务端权威的实时事件契约：加入/离开、**开局**、发言文本、投票（**时长由房间配置，默认 30s**）、**局结束/胜负**、**会话结束**、**终局榜 / 房主再来一局**等。
+- [x] 1.3 环境/配置：房间码策略、**投票/发言默认各 30s（房主可改）**、会话总局数 1–10（默认见 `design.md`）、`DATABASE_URL`（Neon）。
 
 ## 2. 工程初始化与数据
 
-- [ ] 2.1 **用 Cloudflare 官方命令创建工程基底**（[OpenNext – New apps](https://opennext.js.org/cloudflare/get-started)）：`npm create cloudflare@latest -- <app-name> --framework=next --platform=workers`。**勿**单独 `create-next-app` 再迁 OpenNext。生成后接入 **Tailwind CSS 4**、**shadcn/ui**（含 **Textarea**、Button、Dialog、Dropdown 等）、**Lucide React**、**Jotai**、**Framer Motion**（Next / OpenNext 兼容矩阵在 PR 中注明）。
-- [ ] 2.1b **国际化骨架（优先）**：接入 **next-intl**；建立 **`src/app/[locale]/`layout** 与 **`middleware`**；根路径重定向 **`/zh`**；新增 **`messages/zh.json`、`messages/en.json`**；契约页与 **`/start`** 提供 **语言切换**（shadcn **DropdownMenu** 等）；**`whoisspy_locale_v1`** 与 URL 策略按 `design.md` 写清。
-- [ ] 2.2 接入 **Prisma + PostgreSQL**，配置 **Neon** 连接串与迁移流程。
-- [ ] 2.3 **MVP 不使用 Redis**；状态以 DB + 进程内（或单实例）为主，文档中注明多实例后续改造点。
-- [ ] 2.4 接入全局词库：读取 `data/system-word-pairs.json`（或导入 DB 的种子脚本，二选一并实现一种）。
-- [ ] 2.5 **UI 基线**：按 `design-ui.md` 配置 Tailwind 4 主题/CSS 变量（`@theme` 或项目约定方式）；**shadcn/ui** 组件用 `design-ui` 令牌覆写（对局深暖底、首页 `--home-*` 等）；动效用 **Framer Motion** 但遵守 `design-ui` 克制原则；新增页面类型须先更新 `design-ui.md`。
-- [ ] 2.6 安装 **`@dicebear/core`**、**`@dicebear/collection`**，封装 **Big Smile** 头像组件；**`/[locale]/`**：**无 `whoisspy_profile_v1`** 时契约页按 **`docs/images/home.png`**；**已有档案**时重定向 **`/[locale]/start`**（或等价）；契约内：纸卡片、签名线昵称、头像横滑/网格、**指纹按钮**完成登记后入 **`/start`**；**未选头像**时下一步注入 **随机 seed**；CC BY 4.0 署名（见 [DiceBear Big Smile](https://www.dicebear.com/styles/big-smile/)）。
-- [ ] 2.7 实现 **`whoisspy_profile_v1` localStorage**（`displayName` + `avatarSeed`）：在契约首页**下一步**写入；**`/[locale]/start`** 无档案时重定向 **`/[locale]/`**；创建/加入房间携带档案。
-- [ ] 2.8 实现 **`/[locale]/start`**：仅 **加入房间**（房间码 + 确定）与 **开房间** 两入口；创建成功 **直达** **`/[locale]/r/[code]`**；**强制同色纸感**（`design-ui.md` §2.1、`--home-*`）。
+- [x] 2.1 **用 Cloudflare 官方命令创建工程基底**（[OpenNext – New apps](https://opennext.js.org/cloudflare/get-started)）：`npm create cloudflare@latest -- <app-name> --framework=next --platform=workers`。**勿**单独 `create-next-app` 再迁 OpenNext。生成后接入 **Tailwind CSS 4**、**shadcn/ui**（含 **Textarea**、Button、Dialog、Dropdown 等）、**Lucide React**、**Jotai**、**Framer Motion**（Next / OpenNext 兼容矩阵在 PR 中注明）。
+- [x] 2.1b **国际化骨架（优先）**：接入 **next-intl**；建立 **`src/app/[locale]/`layout** 与 **`middleware`**；根路径重定向 **`/zh`**；新增 **`messages/zh.json`、`messages/en.json`**；契约页与 **`/start`** 提供 **语言切换**（shadcn **DropdownMenu** 等）；**`whoisspy_locale_v1`** 与 URL 策略按 `design.md` 写清。
+- [x] 2.2 接入 **Prisma + PostgreSQL**，配置 **Neon** 连接串与迁移流程。
+- [x] 2.3 **MVP 不使用 Redis**；状态以 DB + 进程内（或单实例）为主，文档中注明多实例后续改造点。
+- [x] 2.4 接入全局词库：读取 `data/system-word-pairs.json`（或导入 DB 的种子脚本，二选一并实现一种）。
+- [x] 2.5 **UI 基线**：按 `design-ui.md` 配置 Tailwind 4 主题/CSS 变量（`@theme` 或项目约定方式）；**shadcn/ui** 组件用 `design-ui` 令牌覆写（对局深暖底、首页 `--home-*` 等）；动效用 **Framer Motion** 但遵守 `design-ui` 克制原则；新增页面类型须先更新 `design-ui.md`。
+- [x] 2.6 安装 **`@dicebear/core`**、**`@dicebear/collection`**，封装 **Big Smile** 头像组件；**`/[locale]/`**：**无 `whoisspy_profile_v1`** 时契约页按 **`docs/images/home.png`**；**已有档案**时重定向 **`/[locale]/start`**（或等价）；契约内：纸卡片、签名线昵称、头像横滑/网格、**指纹按钮**完成登记后入 **`/start`**；**未选头像**时下一步注入 **随机 seed**；CC BY 4.0 署名（见 [DiceBear Big Smile](https://www.dicebear.com/styles/big-smile/)）。
+- [x] 2.7 实现 **`whoisspy_profile_v1` localStorage**（`displayName` + `avatarSeed`）：在契约首页**下一步**写入；**`/[locale]/start`** 无档案时重定向 **`/[locale]/`**；创建/加入房间携带档案。
+- [x] 2.8 实现 **`/[locale]/start`**：仅 **加入房间**（房间码 + 确定）与 **开房间** 两入口；创建成功 **直达** **`/[locale]/r/[code]`**；**强制同色纸感**（`design-ui.md` §2.1、`--home-*`）。
 
 ## 3. 私密房间生命周期
 
@@ -60,10 +60,10 @@
 
 按 **[OpenNext on Cloudflare – Get Started](https://opennext.js.org/cloudflare/get-started)** 落地（随官方版本更新核对命令与文件名）。**若 2.1 已用 `npm create cloudflare@latest … --framework=next --platform=workers`**，下列多项可能已由脚手架生成，任务以 **核对版本与补全缺口** 为主。
 
-- [ ] 8.1 核对 **`@opennextjs/cloudflare`** 与 **`wrangler`**（devDependency，版本满足文档要求，如 **≥ 3.99.0**）；若缺失则补装。
-- [ ] 8.2 核对 **`wrangler.jsonc`**（`main` / `assets` / `nodejs_compat` 等）、**`open-next.config.ts`**（按需 R2 增量缓存等）、**`.dev.vars`**；**`package.json`** 含 **`preview` / `deploy`**（及文档中的 **`build`/`upload`/`cf-typegen`** 等）脚本。
-- [ ] 8.3 **`next.config`**：按需调用 **`initOpenNextCloudflareForDev`**；**禁止**保留适配器不支持的 **`export const runtime = "edge"`**。
-- [ ] 8.4 静态资源：按文档添加或核对 **`public/_headers`**（如 `/_next/static/*` 长期缓存）；**`.open-next`** 在 **`.gitignore`** 中。
+- [x] 8.1 核对 **`@opennextjs/cloudflare`** 与 **`wrangler`**（devDependency，版本满足文档要求，如 **≥ 3.99.0**）；若缺失则补装。
+- [x] 8.2 核对 **`wrangler.jsonc`**（`main` / `assets` / `nodejs_compat` 等）、**`open-next.config.ts`**（按需 R2 增量缓存等）、**`.dev.vars`**；**`package.json`** 含 **`preview` / `deploy`**（及文档中的 **`build`/`upload`/`cf-typegen`** 等）脚本。
+- [x] 8.3 **`next.config`**：按需调用 **`initOpenNextCloudflareForDev`**；**禁止**保留适配器不支持的 **`export const runtime = "edge"`**。
+- [x] 8.4 静态资源：按文档添加或核对 **`public/_headers`**（如 `/_next/static/*` 长期缓存）；**`.open-next`** 在 **`.gitignore`** 中。
 - [ ] 8.5 **Neon + Prisma**：在 Workers 运行时验证数据库连通（**Hyperdrive** 或官方推荐方式），Secrets / `DATABASE_URL` 与 Wrangler 环境对齐。
 - [ ] 8.6 **实时**：WebSocket（或等价）在 Cloudflare 上的部署形态与 OpenNext 联调通过；文档中注明开发与生产 URL。
 - [ ] 8.7 CI/CD：生产分支合并后 **`npm run deploy`**（或 Cloudflare Git 集成）可重复发布。

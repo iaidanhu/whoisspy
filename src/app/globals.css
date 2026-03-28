@@ -48,6 +48,19 @@
 }
 
 :root {
+	/* design-ui: 契约首页（home） */
+	--home-bg-page: #e8e4dc;
+	--home-paper: #f4efe6;
+	--home-ink-burgundy: #6b1a2a;
+	--home-ink-muted: #6e6860;
+	--home-seal-btn: #3d3a36;
+	--home-seal-inner: #9a9590;
+	/* design-ui: 工作间（对局壳） */
+	--bg-room: #1a1010;
+	--accent: #c9a227;
+	--text-primary: rgba(255, 255, 255, 0.92);
+	--text-muted: rgba(255, 255, 255, 0.55);
+
 	--radius: 0.625rem;
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.145 0 0);
@@ -123,4 +136,29 @@
   body {
     @apply bg-background text-foreground;
 	}
+}
+
+.home-paper-bg {
+	background-color: var(--home-bg-page);
+	background-image:
+		radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.28), transparent 45%),
+		radial-gradient(circle at 80% 60%, rgba(107, 26, 42, 0.07), transparent 42%);
+}
+
+.home-paper-card {
+	background: var(--home-paper);
+}
+
+.home-seal-btn {
+	background: var(--home-seal-btn) !important;
+	color: var(--home-seal-inner) !important;
+}
+
+.home-seal-btn:hover {
+	filter: brightness(1.06);
+}
+
+.room-shell {
+	background: var(--bg-room);
+	color: var(--text-primary);
 }

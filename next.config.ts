@@ -1,12 +1,11 @@
 import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-	/* config options here */
-};
-
-export default nextConfig;
-
-// Enable calling `getCloudflareContext()` in `next dev`.
-// See https://opennext.js.org/cloudflare/bindings#local-access-to-bindings.
+import createNextIntlPlugin from "next-intl/plugin";
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+
 initOpenNextCloudflareForDev();
+
+const nextConfig: NextConfig = {};
+
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
+
+export default withNextIntl(nextConfig);

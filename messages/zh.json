@@ -1,0 +1,35 @@
+{
+  "brand": {
+    "logo": "Who Is Spy"
+  },
+  "common": {
+    "language": "语言",
+    "next": "下一步",
+    "confirm": "确定",
+    "cancel": "取消",
+    "join": "加入房间",
+    "createRoom": "创建房间",
+    "roomCode": "房间号",
+    "roomCodePlaceholder": "例如 W1A2B3C4",
+    "backHome": "返回首页"
+  },
+  "home": {
+    "subtitle": "THE SHADOW GAME",
+    "intro": "签署你的名字，选择头像，进入私密房间。",
+    "signLabel": "签署你的名字",
+    "signPlaceholder": "在此签名…",
+    "avatarLabel": "选择头像",
+    "dicebearCredit": "头像由 DiceBear Big Smile（CC BY 4.0）生成"
+  },
+  "start": {
+    "title": "开始",
+    "paperIntro": "加入已有房间，或开一局新房。",
+    "joinDescription": "输入 8 位房间号",
+    "createDescription": "你将作为房主进入工作间"
+  },
+  "room": {
+    "title": "房间",
+    "lobbyHint": "等待房主开始游戏（功能开发中）",
+    "codeLabel": "房间码"
+  }
+}

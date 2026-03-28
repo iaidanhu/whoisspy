@@ -1,0 +1,35 @@
+{
+  "brand": {
+    "logo": "Who Is Spy"
+  },
+  "common": {
+    "language": "Language",
+    "next": "Next",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "join": "Join room",
+    "createRoom": "Create room",
+    "roomCode": "Room code",
+    "roomCodePlaceholder": "e.g. W1A2B3C4",
+    "backHome": "Back to home"
+  },
+  "home": {
+    "subtitle": "THE SHADOW GAME",
+    "intro": "Sign your name, pick an avatar, and enter a private room.",
+    "signLabel": "Sign your name",
+    "signPlaceholder": "Sign here…",
+    "avatarLabel": "Choose avatar",
+    "dicebearCredit": "Avatars: DiceBear Big Smile (CC BY 4.0)"
+  },
+  "start": {
+    "title": "Start",
+    "paperIntro": "Join an existing room or host a new one.",
+    "joinDescription": "Enter the 8-character room code",
+    "createDescription": "You will enter the lobby as host"
+  },
+  "room": {
+    "title": "Room",
+    "lobbyHint": "Waiting for host to start (work in progress)",
+    "codeLabel": "Room code"
+  }
+}
