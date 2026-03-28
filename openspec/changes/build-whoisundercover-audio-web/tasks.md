@@ -6,15 +6,20 @@
 
 ## 2. 工程初始化与数据
 
-- [ ] 2.1 初始化 **Next.js（App Router）+ Tailwind CSS** 项目结构。
+- [ ] 2.1 初始化 **Next.js 16（App Router）+ TypeScript + Tailwind CSS 4**；接入 **Radix UI**、**Lucide React**、**Jotai**、**Framer Motion**（版本与 Next 16 兼容矩阵在 PR 中注明）。
+- [ ] 2.1b **国际化骨架（优先）**：接入 **next-intl**；建立 **`src/app/[locale]/`layout** 与 **`middleware`**；根路径重定向 **`/zh`**；新增 **`messages/zh.json`、`messages/en.json`**；契约页与 **`/start`** 提供 **语言切换**（Radix Dropdown 等）；**`whois_locale_v1`** 与 URL 策略按 `design.md` 写清。
 - [ ] 2.2 接入 **Prisma + PostgreSQL**，配置 **Neon** 连接串与迁移流程。
 - [ ] 2.3 **MVP 不使用 Redis**；状态以 DB + 进程内（或单实例）为主，文档中注明多实例后续改造点。
 - [ ] 2.4 接入全局词库：读取 `data/system-word-pairs.json`（或导入 DB 的种子脚本，二选一并实现一种）。
+- [ ] 2.5 **UI 基线**：按 `design-ui.md` 配置 Tailwind 4 主题/CSS 变量（`@theme` 或项目约定方式）；用 **Radix** 封装对话框/抽屉等与 `design-ui` 令牌一致；动效用 **Framer Motion** 但遵守 `design-ui` 克制原则；新增页面类型须先更新 `design-ui.md`。
+- [ ] 2.6 安装 **`@dicebear/core`**、**`@dicebear/collection`**，封装 **Big Smile** 头像组件；**`/[locale]/`** 契约页按 **`docs/images/home.png`**：纸卡片、签名线昵称、头像横滑/网格、**指纹按钮**跳转 **`/[locale]/start`**；**未选头像**时下一步注入 **随机 seed**；CC BY 4.0 署名（见 [DiceBear Big Smile](https://www.dicebear.com/styles/big-smile/)）。
+- [ ] 2.7 实现 **`whois_profile_v1` localStorage**（`displayName` + `avatarSeed`）：在契约首页**下一步**写入；**`/[locale]/start`** 无档案时重定向 **`/[locale]/`**；创建/加入房间携带档案。
+- [ ] 2.8 实现 **`/[locale]/start`**：仅 **加入房间**（房间码）与 **开房间** 两入口；**强制同色纸感**（`design-ui.md` §2.1、`--home-*`）。
 
 ## 3. 私密房间生命周期
 
 - [ ] 3.1 实现创建房间：`W` + 7 位随机字母数字，活跃码唯一。
-- [ ] 3.2 实现无登录加入（房间码 + 昵称 + 头像）与会话内身份。
+- [ ] 3.2 实现无登录加入（房间码 + `displayName` + `avatarSeed`）与会话内身份；列表与消息头使用统一 Big Smile 渲染。
 - [ ] 3.3 人数 3–8、满员拒绝；**无准备阶段**。
 - [ ] 3.4 房主配置**仅**会话总局数 1–10；**不提供**自定义词组。
 - [ ] 3.5 开局从系统词库随机抽一对词，**每局固定 1 名卧底**并发词。
@@ -44,6 +49,7 @@
 
 ## 7. 体验与验证
 
+- [ ] 7.0 按 `design-ui.md` 的 **6 类路由页**与**核心组件**搭建界面：路径均为 **`/[locale]/...`**（含首页、**`/start`**、房间内、对局含榜单/MVP）；**中英文案键完整**；对照 **§11 自检清单** 过一遍再合入。
 - [ ] 7.1 响应式 UI（Tailwind）、头像区、发言区、投票 UI（8 秒倒计时）。
 - [ ] 7.2 音效：投票、发言/投票超时、请 N 号发言（无准备阶段音效）。
 - [ ] 7.3 集成测试：不可投自己、全员弃票、8 秒超时、卧底出局、两人残局卧底胜、平票加赛。

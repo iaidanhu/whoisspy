@@ -1,6 +1,8 @@
 ## 上下文
 
-浏览器版《谁是卧底》，PC/H5 响应式。**MVP 文字 + 可选 STT**；私密房间、无登录。玩法与词库、胜负、投票规则以本文 **「玩法细则（已定）」** 为准。
+浏览器版 **《谁是卧底》**（**Who Is Spy**），PC/H5 响应式。**MVP 文字 + 可选 STT**；私密房间、无登录。玩法与词库、胜负、投票规则以本文 **「玩法细则（已定）」** 为准。产品命名与对外描述见 **[`docs/project-meta.md`](../../../docs/project-meta.md)**。
+
+**UI 与视觉**：**所有界面实现须遵循** [`design-ui.md`](./design-ui.md)。**`/[locale]/` 与 `/[locale]/start`** 均以 **[`docs/images/home.png`](../../../docs/images/home.png)** 为纸感基准（契约/羊皮纸、签名线、指纹按钮；**选择页强制同色纸感**，见 `design-ui.md` §2.1）；**房间内与对局**以 **[`docs/images/image.png`](../../../docs/images/image.png)** 为基准。身份、头像、localStorage、**i18n** 见 `design-ui.md` §2～§3 与 **`app-internationalization` 规格**。
 
 ## 玩法细则（已定）
 
@@ -42,20 +44,35 @@
 
 | 层级 | 选型 |
 |------|------|
-| 前端框架 | **Next.js**（App Router 推荐） |
-| 样式 | **Tailwind CSS** |
+| 框架 | **Next.js 16**，**App Router** |
+| 语言 | **TypeScript**（全仓严格模式） |
+| 样式 | **Tailwind CSS 4** |
+| UI 基座 | **Radix UI**（无样式原语：Dialog、Dropdown、Tabs 等按需在 `design-ui` 令牌上封装） |
+| 图标 | **Lucide React** |
+| 客户端状态 | **Jotai**（房间外档案、对局临时 UI 状态、与服务器状态的派生展示等） |
+| 动效 | **Framer Motion**（阶段切换、抽屉/模态、倒计时与列表重排等；须遵守 `design-ui.md` 动效克制） |
+| 头像生成 | **DiceBear**（`@dicebear/core` + `@dicebear/collection`，**Big Smile**） |
 | ORM | **Prisma** |
 | 数据库 | **PostgreSQL**，托管 **Neon** |
 | 实时 | **WebSocket**（实现位置：Next Route + `ws`、或独立小服务，落地时在 tasks 中细化） |
+| 国际化 | **next-intl**（推荐，与 App Router 配套）+ **`messages/zh.json` / `messages/en.json`**；路由 **`/zh/*`、`/en/*`**，**默认 `zh`**（简体中文） |
 | 缓存 / Redis | **MVP 不使用** |
 
 环境变量示例：`DATABASE_URL` 指向 Neon 连接串。
+
+### 国际化与目录结构（须开局即落地）
+
+- **语言枚举**：`zh`（简体中文）、`en`（英文）；禁止在 MVP 引入第三种语言路由段。
+- **App Router**：页面置于 **`src/app/[locale]/`** 下，例如 `[locale]/page.tsx`（契约首页）、`[locale]/start/page.tsx`、`[locale]/r/[code]/...`；**根 `src/app/page.tsx`** 仅负责 **重定向到默认 locale**（如 `/zh`）。
+- **中间件**：`middleware.ts` 处理 locale 检测与 `next-intl` 路由匹配；可与 `whois_locale_v1` 协同（策略：优先 URL，其次 cookie/localStorage 需在客户端二次对齐时文档化）。
+- **文案**：键值 JSON，**禁止**在组件内散落中英双份字符串；服务端组件 `getTranslations` / 客户端 `useTranslations`。
+- **与游戏数据**：`system-word-pairs.json` **不随 UI 语言切换而翻译**（MVP）；英文玩家仍见中文词对，见 `app-internationalization` 规格。
 
 ## 目标 / 非目标
 
 **目标：** 私密房、系统词库、固定 1 卧底、胜负与投票规则可测；文字通道 + 可选 STT；多局会话榜与终局 MVP。
 
-**非目标（MVP）：** 实时语音/视频、Redis、自定义词组、准备阶段、云端 STT 必选项。
+**非目标（MVP）：** 实时语音/视频、Redis、自定义词组、准备阶段、云端 STT 必选项、**第三种界面语言**、**系统词库英文化**。
 
 ## 技术决策（架构）
 
